@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nbvinas.movery.BuildConfig;
 import com.nbvinas.movery.Delivery;
@@ -139,10 +140,13 @@ public class DeliveriesFragment extends DaggerFragment {
                                         }
                                     }
                                 }
+                                break;
                             default:
                                 swipeRefreshLayout.setRefreshing(false);
                                 loadDeliveriesFromLocal();
                                 Timber.d(response.message());
+                                Toast.makeText(getActivity(), response.message(),
+                                        Toast.LENGTH_LONG).show();
                                 break;
                         }
                     }
@@ -151,6 +155,8 @@ public class DeliveriesFragment extends DaggerFragment {
                     public void onFailure(Call<DeliveriesResponse> call, Throwable t) {
                         swipeRefreshLayout.setRefreshing(false);
                         Timber.d(t.getMessage());
+                        Toast.makeText(getActivity(), t.getMessage(),
+                                Toast.LENGTH_LONG).show();
                         loadDeliveriesFromLocal();
                     }
                 });
