@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Movery</string>
+
+    <string name="deliveries_label">List of deliveries</string>
+    <string name="details_label">Displays details of delivery items.</string>
+
+    <string name="delivery_description_static">Delivery description</string>
+    <string name="delivery_address_static">Address</string>
+    <string name="search">Search items&#8230;</string>
+    <string name="send_message">Send a message</string>
+    <string name="delivery_message">Hey %1$s! You\'ve got a package coming. And it\'s coming in fast! \n Team Movery.</string>
+    <string name="total_fee">Total fee: %1$s</string>
+
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
+        Your google MAPS Key Here
+    </string>
+
+    <string name="json_stub_user_key" templateMergeStrategy="preserve" translatable="false">
+        Ask this from me
+    </string>
+
+    <string name="json_stub_project_key" templateMergeStrategy="preserve" translatable="false">
+        Ask this from me
+    </string>
+
+</resources>
