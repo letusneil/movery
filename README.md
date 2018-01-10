@@ -43,11 +43,11 @@ The app uses [JsonStub](http://jsonstub.com/) as data source and Google maps for
 Once these data are obtained, replace the API keys inside res/strings.xml.
 
 ### Things to note
-* The project priority is to achieve the basic requirements and and create a "production-ready" solution
+* The project priority is to achieve the basic requirements and create a "production-ready" solution
 * No particular architectural pattern is used to avoid over engineering as the requirement only has 2 screens for a handset and 1 for a tablet
 
 ### Technical approach
-To support multi-pane layout Fragments are used. On a tablet, multiple Fragments were placed in one Activity while on a handset, separate Activities are used to host each Fragment. 
+To support multi-pane layout Fragments were used. On a tablet, multiple Fragments were placed in one Activity while on a handset, separate Activities were used to host each Fragment. 
 
 ### Libraries used
 Third party libraries were used as to not reinvent the wheel in solving common problems such as performing network calls and offline handling.
