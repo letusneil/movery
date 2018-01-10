@@ -1,10 +1,10 @@
 # movery
 
-An example of multipane layout Android app using XML based fragments. 
+An example of multi-pane layout Android app using XML based Fragments. 
 
 ### Features
 
-* Display a list of deliveries
+* Display list of deliveries
 * Display the details for each delivery
 * Open SMS messaging app to contact the receiver name
 
@@ -47,10 +47,10 @@ Once these data are obtained, replace the API keys inside res/strings.xml.
 * No particular architectural pattern is used to avoid over engineering as the requirement only has 2 screens for a handset and 1 for a tablet
 
 ### Technical approach
-To support multi pane layout Fragments are used. On a tablet, multiple fragments are placed in one activity; on a handset, separate activities are used to host each fragment. 
+To support multi-pane layout Fragments are used. On a tablet, multiple Fragments were placed in one Activity while on a handset, separate Activities are used to host each Fragment. 
 
 ### Libraries used
-Third party libraries are used as to not reinvent the wheel in solving common problems such as performing network calls and offline handling.
+Third party libraries were used as to not reinvent the wheel in solving common problems such as performing network calls and offline handling.
 
 * [Retrofit](http://square.github.io/retrofit/) - to perform network calls and retrieve data from the API
 * [Realm](https://realm.io/) - used as the persistence layer to cache data for offline handling
