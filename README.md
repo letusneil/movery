@@ -44,7 +44,7 @@ Once these data are obtained, replace the API keys inside res/strings.xml.
 
 ### Things to note
 * The project priority is to achieve the basic requirements and create a "production-ready" solution
-* No particular architectural pattern is used to avoid over engineering as the requirement only has 2 screens for a handset and 1 for a tablet
+* No particular architectural pattern were used to avoid over engineering as the requirement only has two screens for a handset and one for a tablet
 
 ### Technical approach
 To support multi-pane layout Fragments were used. On a tablet, multiple Fragments were placed in one Activity while on a handset, separate Activities were used to host each Fragment. 
