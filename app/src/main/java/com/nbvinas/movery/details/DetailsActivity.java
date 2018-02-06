@@ -32,7 +32,6 @@ public class DetailsActivity extends DaggerAppCompatActivity {
         Intent intent = getIntent();
         Delivery delivery = intent.getParcelableExtra(Constants.DELIVERY_KEY);
 
-        // Set up the toolbar.
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar ab = getSupportActionBar();
@@ -46,7 +45,6 @@ public class DetailsActivity extends DaggerAppCompatActivity {
             if (savedInstanceState != null) {
                 return;
             }
-            // Get the fragment from dagger
             detailsFragment = detailsFragmentProvider.get();
             detailsFragment.setArguments(getIntent().getExtras());
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

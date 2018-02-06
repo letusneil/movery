@@ -25,13 +25,19 @@ public class MoveryApp extends DaggerApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        initRealm();
+        initTimber();
+    }
 
+    private void initRealm() {
         Realm.init(this);
         RealmConfiguration config = new RealmConfiguration.Builder()
                 .deleteRealmIfMigrationNeeded()
                 .build();
         Realm.setDefaultConfiguration(config);
+    }
 
+    private void initTimber() {
         Timber.plant(new Timber.DebugTree() {
             @Override
             protected String createStackElementTag(@NonNull StackTraceElement element) {

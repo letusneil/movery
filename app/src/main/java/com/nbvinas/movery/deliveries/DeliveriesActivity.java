@@ -10,6 +10,7 @@ import com.nbvinas.movery.R;
 import com.nbvinas.movery.details.DetailsActivity;
 import com.nbvinas.movery.details.DetailsFragment;
 
+import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
 import dagger.Lazy;
@@ -25,14 +26,12 @@ public class DeliveriesActivity extends DaggerAppCompatActivity implements Deliv
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deliveries);
 
-        // Set up the deliveries list screen
         DeliveriesFragment deliveriesFragment =
                 (DeliveriesFragment) getSupportFragmentManager().findFragmentById(R.id.deliveries_fragment);
         if (deliveriesFragment == null) {
             if (savedInstanceState != null) {
                 return;
             }
-            // Get the fragment from dagger
             deliveriesFragment = deliveriesFragmentProvider.get();
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.add(R.id.container, deliveriesFragment);
@@ -41,20 +40,15 @@ public class DeliveriesActivity extends DaggerAppCompatActivity implements Deliv
     }
 
     @Override
-    public void onTaskClick(Delivery clickedDelivery) {
+    public void onItemClick(@Nonnull Delivery clickedDelivery) {
         DetailsFragment detailsFragment = (DetailsFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.details_fragment);
         if (detailsFragment == null) {
-            // DisplayFragment (Fragment B) is not in the layout (handset layout),
-            // so start DisplayActivity (Activity B)
-            // and pass it the info about the selected item
             Intent intent = new Intent(this, DetailsActivity.class);
             intent.putExtra(Constants.DELIVERY_KEY, clickedDelivery);
             startActivity(intent);
         } else {
-            // DisplayFragment (Fragment B) is in the layout (tablet layout),
-            // so tell the fragment to update
-            detailsFragment.setUpDetailsAndMap(clickedDelivery);
+            detailsFragment.setDeliveryLocation(clickedDelivery);
         }
     }
 

@@ -6,8 +6,10 @@ package com.nbvinas.movery;
 
 public class Constants {
 
-    public static final String DELIVERY_KEY = "delivery_key";
-
     private Constants() {
     }
+
+    public static final String DELIVERY_KEY = "delivery_key";
+    public static final String BASE_URL = "http://jsonstub.com/";
+
 }

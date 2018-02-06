@@ -1,7 +1,6 @@
 package com.nbvinas.movery.deliveries;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.nbvinas.movery.BuildConfig;
 import com.nbvinas.movery.Delivery;
 import com.nbvinas.movery.R;
 import com.nbvinas.movery.di.ActivityScoped;
@@ -25,6 +23,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Nonnull;
 import javax.inject.Inject;
 
 import dagger.android.support.DaggerFragment;
@@ -53,6 +52,7 @@ public class DeliveriesFragment extends DaggerFragment {
 
     @Inject
     Retrofit retrofit;
+    private Call<DeliveriesResponse> deliveriesCall;
 
     @Inject
     public DeliveriesFragment() {
@@ -113,53 +113,55 @@ public class DeliveriesFragment extends DaggerFragment {
         swipeRefreshLayout.setRefreshing(true);
 
         DeliveriesApi deliveriesApi = retrofit.create(DeliveriesApi.class);
-        deliveriesApi.deliveries("application/json",
+        deliveriesCall = deliveriesApi.deliveries("application/json",
                 getString(R.string.json_stub_user_key),
-                getString(R.string.json_stub_project_key))
-                .enqueue(new Callback<DeliveriesResponse>() {
-                    @Override
-                    public void onResponse(@NonNull Call<DeliveriesResponse> call, @NonNull Response<DeliveriesResponse> response) {
+                getString(R.string.json_stub_project_key));
+        deliveriesCall.enqueue(new Callback<DeliveriesResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<DeliveriesResponse> call, @NonNull Response<DeliveriesResponse> response) {
 
-                        switch (response.code()) {
-                            case 200:
-                                if (response.body() != null) {
-                                    DeliveriesResponse deliveriesResponse = response.body();
-                                    if (deliveriesResponse != null) {
-
-                                        List<Delivery> deliveries = deliveriesResponse.getDeliveries();
-                                        if (deliveries != null && deliveries.size() > 0) {
-                                            // Save response to db
-                                            Realm realm = Realm.getDefaultInstance();
-                                            realm.beginTransaction();
-                                            realm.copyToRealmOrUpdate(deliveries);
-                                            realm.commitTransaction();
-
-                                            forceUpdate = false;
-                                            swipeRefreshLayout.setRefreshing(false);
-                                            loadDeliveriesFromLocal();
-                                        }
-                                    }
+                switch (response.code()) {
+                    case 200:
+                        if (response.body() != null) {
+                            DeliveriesResponse deliveriesResponse = response.body();
+                            if (deliveriesResponse != null) {
+                                List<Delivery> deliveries = deliveriesResponse.getDeliveries();
+                                if (deliveries != null && deliveries.size() > 0) {
+                                    saveDeliveriesToLocal(deliveries);
                                 }
-                                break;
-                            default:
-                                swipeRefreshLayout.setRefreshing(false);
-                                loadDeliveriesFromLocal();
-                                Timber.d(response.message());
-                                Toast.makeText(getActivity(), response.message(),
-                                        Toast.LENGTH_LONG).show();
-                                break;
+                            }
                         }
-                    }
-
-                    @Override
-                    public void onFailure(Call<DeliveriesResponse> call, Throwable t) {
+                        break;
+                    default:
                         swipeRefreshLayout.setRefreshing(false);
-                        Timber.d(t.getMessage());
-                        Toast.makeText(getActivity(), t.getMessage(),
-                                Toast.LENGTH_LONG).show();
                         loadDeliveriesFromLocal();
-                    }
-                });
+                        Timber.d(response.message());
+                        Toast.makeText(getActivity(), response.message(),
+                                Toast.LENGTH_LONG).show();
+                        break;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DeliveriesResponse> call, Throwable t) {
+                swipeRefreshLayout.setRefreshing(false);
+                Timber.d(t.getMessage());
+                Toast.makeText(getActivity(), t.getMessage(),
+                        Toast.LENGTH_LONG).show();
+                loadDeliveriesFromLocal();
+            }
+        });
+    }
+
+    private void saveDeliveriesToLocal(List<Delivery> deliveries) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(deliveries);
+        realm.commitTransaction();
+
+        forceUpdate = false;
+        swipeRefreshLayout.setRefreshing(false);
+        loadDeliveriesFromLocal();
     }
 
     private void loadDeliveriesFromLocal() {
@@ -171,7 +173,7 @@ public class DeliveriesFragment extends DaggerFragment {
     }
 
     public interface DeliveryItemListener {
-        void onTaskClick(Delivery clickedDelivery);
+        void onItemClick(@Nonnull Delivery clickedDelivery);
     }
 
     private class DeliveriesAdapter extends RecyclerView.Adapter<DeliveriesAdapter.ViewHolder> {
@@ -212,7 +214,7 @@ public class DeliveriesFragment extends DaggerFragment {
                 @Override
                 public void onClick(View view) {
                     if (itemListener != null) {
-                        itemListener.onTaskClick(delivery);
+                        itemListener.onItemClick(delivery);
                     }
                 }
             });
@@ -246,6 +248,10 @@ public class DeliveriesFragment extends DaggerFragment {
         Realm realm = Realm.getDefaultInstance();
         if (realm != null) {
             realm.close();
+        }
+
+        if (deliveriesCall != null) {
+            deliveriesCall.cancel();
         }
     }
 }

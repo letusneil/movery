@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -75,52 +74,39 @@ public class DetailsFragment extends DaggerFragment implements GoogleMap.OnMarke
         fee = root.findViewById(R.id.fee);
         sendMessage = root.findViewById(R.id.btn_send_message);
 
-        setUpDetailsAndMap();
+        setDeliveryLocation(getDeliveryLocationFromBundle());
+        setUpMap();
+        setUpDetails();
 
         return root;
     }
 
-    private void setUpDetailsAndMap() {
-        // Get delivery from bundle
+    private Delivery getDeliveryLocationFromBundle() {
         Bundle args = getArguments();
         if (args == null) {
             Timber.d("Bundle not available!");
-            return;
+            return null;
         }
-        delivery = args.getParcelable(Constants.DELIVERY_KEY);
-        if (delivery == null) {
-            Timber.d("Delivery not available!");
-            return;
-        }
-        location = delivery.getLocation();
-        if (location == null) {
-            Timber.d("Location not available!");
-            return;
-        }
-        locationLatLng = new LatLng(location.getLat(), location.getLng());
-        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.google_map);
-        new OnMapAndViewReadyListener(mapFragment, this);
-
-        setUpDetails();
+        return args.getParcelable(Constants.DELIVERY_KEY);
     }
 
-    public void setUpDetailsAndMap(Delivery clickedDelivery) {
-        // Get delivery from bundle
-        delivery = clickedDelivery;
+    public void setDeliveryLocation(Delivery delivery) {
+        this.delivery = delivery;
         if (delivery == null) {
             Timber.d("Delivery not available!");
             return;
         }
         location = delivery.getLocation();
+    }
+
+    private void setUpMap() {
         if (location == null) {
-            Timber.d("Location not available!");
+            Timber.d("Location is null!");
             return;
         }
         locationLatLng = new LatLng(location.getLat(), location.getLng());
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.google_map);
         new OnMapAndViewReadyListener(mapFragment, this);
-
-        setUpDetails();
     }
 
     private void setUpDetails() {

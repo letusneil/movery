@@ -2,6 +2,7 @@ package com.nbvinas.movery.di;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.nbvinas.movery.Constants;
 import com.nbvinas.movery.network.DeliveriesResponse;
 import com.nbvinas.movery.network.api.DeliveriesApi;
 
@@ -20,8 +21,6 @@ import timber.log.Timber;
  */
 @Module
 public class NetworkModule {
-
-    private static final String BASE_URL = "http://jsonstub.com/";
 
     @Provides
     @Singleton
@@ -59,7 +58,7 @@ public class NetworkModule {
     @Singleton
     public Retrofit retrofit(OkHttpClient okHttpClient, Gson gson) {
         return new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(okHttpClient)
                 .build();
