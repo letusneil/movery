@@ -6,7 +6,6 @@ An example of multi-pane layout Android app using XML based Fragments.
 
 * Display list of deliveries
 * Display the details for each delivery
-* Open SMS messaging app to contact the receiver name
 
 ### Handset screenshots
 
@@ -20,7 +19,7 @@ An example of multi-pane layout Android app using XML based Fragments.
 
 The app uses [JsonStub](http://jsonstub.com/) as data source and Google maps for location. The following keys are needed to compile the app.
 * [Google Map API](https://developers.google.com/maps/documentation/android-api/signup) 
-* JsonStub-User-Key & JsonStub-Project-Key - contact me for this details or you can set-up your own json stub using the following data format
+* JsonStub-User-Key & JsonStub-Project-Key - set-up your own json stub using the following data format
 ```
 {
 	"status": "ok",
@@ -42,11 +41,7 @@ The app uses [JsonStub](http://jsonstub.com/) as data source and Google maps for
 ```
 Once these data are obtained, replace the API keys inside res/strings.xml.
 
-### Things to note
-* The project priority is to achieve the basic requirements and create a "production-ready" solution
-* No particular architectural pattern were used to avoid over engineering as the requirement only has two screens for a handset and one for a tablet
-
-### Technical approach
+### Approach
 To support multi-pane layout Fragments were used. On a tablet, multiple Fragments were placed in one Activity while on a handset, separate Activities were used to host each Fragment. 
 
 ### Libraries used
