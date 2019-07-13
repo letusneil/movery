@@ -1,6 +1,6 @@
 # movery
 
-An example of multi-pane layout Android app using XML based Fragments. 
+An example of very basic multi-pane layout Android app.
 
 ### Features
 
@@ -42,14 +42,8 @@ The app uses [JsonStub](http://jsonstub.com/) as data source and Google maps for
 Once these data are obtained, replace the API keys inside res/strings.xml.
 
 ### Approach
-To support multi-pane layout Fragments were used. On a tablet, multiple Fragments were placed in one Activity while on a handset, separate Activities were used to host each Fragment. 
+To support multi-pane layout Fragments were used. On a tablet, multiple Fragments were placed in one Activity while on a mobile, separate Activities were used to host each Fragment. 
 
-### Libraries used
-Third party libraries were used as to not reinvent the wheel in solving common problems such as performing network calls and offline handling.
-
-* [Retrofit](http://square.github.io/retrofit/) - to perform network calls and retrieve data from the API
-* [Realm](https://realm.io/) - used as the persistence layer to cache data for offline handling
-* [Dagger](https://github.com/google/dagger) - for dependency injection
 
 # License
 
